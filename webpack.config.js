@@ -7,7 +7,7 @@ console.log(__dirname);
 
 module.exports = {
 
-  devtool: 'inline-source-map',
+  // devtool: 'inline-source-map',
 
   entry: path.join(__dirname, 'app', 'js', 'app.js'),
 
@@ -42,6 +42,14 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false'))
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+        mangle: {
+            // except: ['$super', '$', 'exports', 'require']
+        },
+        compress: {
+            warnings: false
+        }
     })
   ]
 
