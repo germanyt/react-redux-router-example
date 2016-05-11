@@ -12,10 +12,10 @@ module.exports = {
   entry: path.join(__dirname, 'app', 'js', 'app.js'),
 
   output: {
-    path: __dirname + '/__build__/',
+    path: __dirname + '/build/',
     filename: 'app.js',
     chunkFilename: '[id].chunk.js',
-    publicPath: '/__build__/'
+    publicPath: '/build/'
   },
 
   module: {
