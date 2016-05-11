@@ -1,8 +1,9 @@
 import 'babel-polyfill'
 import React from 'react'
 import { render } from 'react-dom'
-import { Router, Route, IndexRoute, Link, IndexLink, browserHistory } from 'react-router'
+import { Router, Route, IndexRoute, Link, IndexLink, useRouterHistory } from 'react-router'
 import { Provider } from 'react-redux';
+import { createHistory } from 'history'
 
 //import components
 import App from './components/app.com'
@@ -35,10 +36,13 @@ class About extends React.Component {
   }
 }
 
+const history = useRouterHistory(createHistory)({
+  basename: '/react-redux-router-example'
+})
 
 render((
   <Provider store={store}>
-    <Router history={browserHistory}>
+    <Router history={history}>
       <Route path="/" component={App}>
         <IndexRoute component={Index}/>
         <Route path="/about" component={About}/>
