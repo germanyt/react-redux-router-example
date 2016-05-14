@@ -1,8 +1,8 @@
 import {
-  PUBLISH_BLOG, SELECT_BLOG
+  PUBLISH_BLOG, RECEIVE_BLOG
 } from '../action/app.act'
 
-const initState = JSON.parse(localStorage.getItem('blog')) || {
+const initState = /*JSON.parse(localStorage.getItem('blog')) ||*/ {
 	blogs: [],
 	userMap: {}
 };
@@ -12,7 +12,7 @@ function Blog(state=initState, action){
 	switch(action.type){
 		case PUBLISH_BLOG:
 			let blog = action.data;
-			let username = blog.username
+			let username = blog.author;
 			let userObj = {};
 
 			if (state.userMap[username]){
@@ -21,7 +21,7 @@ function Blog(state=initState, action){
 				userObj[username] = [state.blogs.length];
 			}
 
-			state = Object.assign({}, state, {
+			let st = Object.assign({}, state, {
 				blogs: [...state.blogs, {
 					text: blog.text,
 					time: new Date().toString(),
@@ -31,12 +31,14 @@ function Blog(state=initState, action){
 				userMap: Object.assign({}, state.userMap, userObj)
 			});
 			
-			localStorage.setItem('blog', JSON.stringify(state));
+			// localStorage.setItem('blog', JSON.stringify(state));
 
-			return state;
-		case SELECT_BLOG:
+			return st;
+		case RECEIVE_BLOG:
+
+			let sta = Object.assign({}, state, {blogs: action.data});
 			
-			return state
+			return sta;
 		break;
 		default:
 		return state;

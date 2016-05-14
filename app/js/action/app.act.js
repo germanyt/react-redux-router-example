@@ -1,4 +1,6 @@
-import fetch from 'isomorphic-fetch'
+// import fetch from 'isomorphic-fetch'
+
+import {addBlog, cursorBlog} from '../../db/blog/index';
 
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
@@ -6,12 +8,24 @@ export const SELECT_REDDIT = 'SELECT_REDDIT'
 export const INVALIDATE_REDDIT = 'INVALIDATE_REDDIT'
 
 export const PUBLISH_BLOG = 'PUBLISH_BLOG'
-export const SELECT_BLOG = 'SELECT_BLOG'
+export const RECEIVE_BLOG = 'RECEIVE_BLOG'
 
 export const ADD_USER = 'ADD_USER'
 export const SELECT_USER = 'SELECT_USER'
 
 export function publishBlog(data){
+
+  return dispatch => {
+    addBlog([data]).then(status => {
+      dispatch(saveBlog(data));
+
+      dispatch(selectBlog());
+
+    }).catch(error => console.log(error));
+  }
+}
+
+function saveBlog(data){
   return {
     type: PUBLISH_BLOG,
     data
@@ -19,9 +33,17 @@ export function publishBlog(data){
 }
 
 export function selectBlog(where) {
+  return dispatch => {
+    cursorBlog(where).then(data => {
+      dispatch(receiveBlog(data));
+    }).catch(error => console.log(error));
+  }
+}
+
+function receiveBlog(data){
   return {
-    type: SELECT_BLOG,
-    where
+    type: RECEIVE_BLOG,
+    data
   }
 }
 
@@ -39,26 +61,6 @@ export function selectUser(username){
   }
 }
 
-export function selectReddit(reddit) {
-  return {
-    type: SELECT_REDDIT,
-    reddit
-  }
-}
-
-export function invalidateReddit(reddit) {
-  return {
-    type: INVALIDATE_REDDIT,
-    reddit
-  }
-}
-
-function requestPosts(reddit) {
-  return {
-    type: REQUEST_POSTS,
-    reddit
-  }
-}
 
 function receivePosts(reddit, json) {
   return {

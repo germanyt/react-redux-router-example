@@ -43,8 +43,9 @@ const Navigation = React.createClass( {
 
 
     this.props.onPublishBlog({
-      username: this.props.User.username || 'gavin',
-      text: this.state.text
+      author: this.props.User.username || 'gavin',
+      text: this.state.text,
+      time: Date.now()
     })
 
     this.setState({

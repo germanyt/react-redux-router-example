@@ -2,8 +2,10 @@ import React from 'react'
 import { Jumbotron, Button } from 'react-bootstrap';
 
 import Posts from './posts.com';
-
-class Index extends React.Component {
+const Index = React.createClass( {
+	componentDidMount() {
+		this.props.onGetBlog();
+	},
   render() {
   	let blogs = this.props.Blog.blogs;
     return (
@@ -18,6 +20,6 @@ class Index extends React.Component {
 	  	</div>
     )
   }
-}
+});
 
 export default Index
